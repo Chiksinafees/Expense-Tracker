@@ -102,6 +102,9 @@ const ExpenseForm = () => {
     setIsLogin((prevState) => !prevState);
   };
 
+  const forgetPasswordHandler=()=>{
+    history.replace('/ForgetPassword')
+  }
   return (
     <section>
       <form onSubmit={submitHandler}>
@@ -133,6 +136,7 @@ const ExpenseForm = () => {
           />
         </div>
         <div>
+          <p type='button' onClick={forgetPasswordHandler}>forgot password ?</p>
         <button type="submit">{isLogin ? "login" : "Sign up"}</button><br/>
         {/* {isLoading && <p>sending request...</p>} */}
         <h4 type="button" onClick={switchAuthHandler}>
