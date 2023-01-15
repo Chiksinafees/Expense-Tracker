@@ -2,10 +2,13 @@ import { useEffect, useState } from "react";
 import { Fragment } from "react";
 import ExpenseContext from "../store/Expense-context";
 import { useContext } from "react";
+import { useHistory } from "react-router-dom";
 
 const CompleteProfile = () => {
   const comCtx = useContext(ExpenseContext);
   const idToken = comCtx.token;
+  const email = comCtx.email;
+  const history = useHistory();
   const [name, setName] = useState("");
   const [photoUrl, setPhotoUrl] = useState("");
   // const [newName, setNewName] = useState("");
@@ -21,7 +24,6 @@ const CompleteProfile = () => {
 
   const formSubmitHandler = async (e) => {
     e.preventDefault();
-
     const response = await fetch(
       "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyCgUOqeNyJVmp0BGn8K4bpRLeN4pcRNwPk",
       {
@@ -65,7 +67,7 @@ const CompleteProfile = () => {
       if (get.ok) {
         console.log(data.users[0].displayName);
         console.log(data.users[0].photoUrl);
-        
+
         if (data.users[0].displayName) {
           setName(data.users[0].displayName);
           setPhotoUrl(data.users[0].photoUrl);
@@ -77,8 +79,14 @@ const CompleteProfile = () => {
     getDataFromFirebase();
   }, []);
 
+  const logoutHandler = () => {
+    comCtx.logout(email, idToken);
+    history.replace("./");
+  };
+
   return (
     <Fragment>
+      <button onClick={logoutHandler}>logout</button>
       <div>
         <p>Winners never quite,quitters never won</p>
       </div>

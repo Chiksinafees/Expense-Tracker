@@ -4,7 +4,9 @@ const ExpenseContext = React.createContext({
   token: null,
   email: null,
   isLoggedIn: false,
-  login: (token) => {},
+  login: (email,token) => {},
+  logout: (email,token) => {},
+
 });
 
 export const ExpenseContextProvider = (props) => {
@@ -23,11 +25,20 @@ export const ExpenseContextProvider = (props) => {
     localStorage.setItem("email", email);
   };
 
+  
+  const logoutHandler = (token, email) => {
+    setToken(null);
+    setEmail(null);
+    localStorage.removeItem("token");
+    localStorage.removeItem("email");
+  };
+
 const expensecontextVal = {
   token: token,
   email: email,
   isLoggedIn: userIsLoggedIn,
   login: loginHandler,
+  logout:logoutHandler
 };
 
 return (
