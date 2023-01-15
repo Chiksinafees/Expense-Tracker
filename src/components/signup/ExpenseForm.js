@@ -77,7 +77,8 @@ const ExpenseForm = () => {
           const regex = /[.@]/g;                          
           const emailId = data.email.replace(regex, "")
           expCtx.login(data.idToken,emailId)
-          history.replace('/DummyScreen')
+          //history.replace('/DummyScreen')
+          history.replace('/EmailVerification')
           }
         })
         .catch((err) => {
