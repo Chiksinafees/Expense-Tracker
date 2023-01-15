@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Fragment } from "react";
 import ExpenseContext from "../store/Expense-context";
 import { useContext } from "react";
@@ -8,6 +8,8 @@ const CompleteProfile = () => {
   const idToken = comCtx.token;
   const [name, setName] = useState("");
   const [photoUrl, setPhotoUrl] = useState("");
+  // const [newName, setNewName] = useState("");
+  //   const [newPhotoUrl, setNewPhotoUrl] = useState("");
 
   const nameHandler = (e) => {
     setName(e.target.value);
@@ -31,8 +33,8 @@ const CompleteProfile = () => {
           returnSecureToken: true,
         }),
         headers: {
-            "Content-Type": "application/json",
-          },
+          "Content-Type": "application/json",
+        },
       }
     );
     const data = await response.json();
@@ -40,11 +42,41 @@ const CompleteProfile = () => {
       console.log(data);
       setName("");
       setPhotoUrl("");
-    }
-    else{
-        alert(data.error.message)
+    } else {
+      alert(data.error.message);
     }
   };
+
+  useEffect(() => {
+    const getDataFromFirebase = async () => {
+      const get = await fetch(
+        "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyCgUOqeNyJVmp0BGn8K4bpRLeN4pcRNwPk",
+        {
+          method: "POST",
+          body: JSON.stringify({
+            idToken: idToken,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      const data = await get.json();
+      if (get.ok) {
+        console.log(data.users[0].displayName);
+        console.log(data.users[0].photoUrl);
+        
+        if (data.users[0].displayName) {
+          setName(data.users[0].displayName);
+          setPhotoUrl(data.users[0].photoUrl);
+        }
+      } else {
+        alert(data.error.message);
+      }
+    };
+    getDataFromFirebase();
+  }, []);
+
   return (
     <Fragment>
       <div>
