@@ -78,7 +78,9 @@ const ExpenseForm = () => {
           const emailId = data.email.replace(regex, "")
           expCtx.login(data.idToken,emailId)
           //history.replace('/DummyScreen')
-          history.replace('/EmailVerification')
+          //history.replace('/EmailVerification')
+          history.replace('/DailyExpense')
+
           }
         })
         .catch((err) => {

@@ -6,6 +6,7 @@ import ExpenseForm from "./components/signup/ExpenseForm";
 import CompleteProfile from "./components/pages/CompleteProfile";
 import EmailVerification from "./components/pages/EmailVerification";
 import ForgetPassword from "./components/pages/ForgetPassword";
+import DailyExpense from "./components/pages/DailyExpense";
 
 function App() {
   return (
@@ -24,6 +25,9 @@ function App() {
       </Route>
       <Route path="/ForgetPassword" exact>
         <ForgetPassword />
+      </Route>
+      <Route path="/DailyExpense" exact>
+        <DailyExpense />
       </Route>
     </Fragment>
   );
