@@ -1,10 +1,13 @@
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState, useContext } from "react";
+import ExpenseContext from "../store/Expense-context";
 
 const DailyExpense = () => {
+  
   const [moneySpent, setMoneySpent] = useState("");
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
-  const [arr, setArr] = useState([]);
+
+  const dailyExpCtx = useContext(ExpenseContext);
 
   const moneySpentHandler = (e) => {
     setMoneySpent(e.target.value);
@@ -20,61 +23,25 @@ const DailyExpense = () => {
 
   const formSubmitHnadler = async (e) => {
     e.preventDefault();
-    setArr([
-      ...arr,
-      { moneySpent: moneySpent, description: description, category: category },
-    ]);
-
-    const post = await fetch(
-      "https://expense-975c9-default-rtdb.firebaseio.com/Expenses.json",
-      {
-        method: "POST",
-        body: JSON.stringify({
-          moneySpent: moneySpent,
-          description: description,
-          category: category,
-        }),
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
-    const data = await post.json();
-    console.log(data);
-    setMoneySpent("");
-    setDescription("");
-    setCategory("");
+    const obj = {
+      moneySpent: moneySpent,
+      description: description,
+      category: category,
+    };
+    dailyExpCtx.postData(obj);
   };
 
-  useEffect(() => {
-    const getRealTimeData = async () => {
-      const get = await fetch(
-        "https://expense-975c9-default-rtdb.firebaseio.com/Expenses.json",
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-      const data = await get.json();
-      console.log(data);
-      if (get.ok) {
-        const getArray = Object.keys(data).map((exp) => {
-          return {
-            id: exp,
-            moneySpent: data[exp].moneySpent,
-            description: data[exp].description,
-            category: data[exp].category,
-          };
-        });
-        setArr(getArray);
-      } else {
-        alert(data.error.message);
-      }
-    };
-    getRealTimeData();
-  }, []);
+  const deleteHandler = (deleteExpId) => {
+    dailyExpCtx.delete(deleteExpId);
+  };
+
+  const editHandler = (array) => {
+    //console.log(array)
+    setMoneySpent(array.moneySpent);
+    setDescription(array.description);
+    setCategory(array.category);
+    dailyExpCtx.edit(array);
+  };
 
   return (
     <Fragment>
@@ -105,10 +72,12 @@ const DailyExpense = () => {
         <button type="submit">submit</button>
       </form>
       <ul>
-        {arr.map((array) => (
-          <li key={array.money + array.description}>
+        {dailyExpCtx.expenses.map((array) => (
+          <li key={array.id + array.moneySpent + array.description}>
             moneySpent: {array.moneySpent} , description: {array.description} ,
             category: {array.category} ,
+            <button onClick={deleteHandler.bind(null, array.id)}>delete</button>
+            <button onClick={editHandler.bind(null, array)}>edit</button>
           </li>
         ))}
       </ul>
