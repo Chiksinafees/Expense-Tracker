@@ -5,14 +5,17 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { BrowserRouter } from 'react-router-dom';
 import { ExpenseContextProvider } from './components/store/Expense-context';
-
+import store from './components/store/Redux-store';
+import { Provider } from 'react-redux';
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
+  <Provider store={store}>
   <ExpenseContextProvider>
     <BrowserRouter>
     <App />
     </BrowserRouter>
   </ExpenseContextProvider>
+   </Provider>
 );
 
 // If you want to start measuring performance in your app, pass a function

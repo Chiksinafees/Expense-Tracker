@@ -1,8 +1,9 @@
 import { useEffect, useState } from "react";
-import { Fragment } from "react";
 import ExpenseContext from "../store/Expense-context";
 import { useContext } from "react";
 import { useHistory } from "react-router-dom";
+import classes from "./DailyExpense.module.css";
+
 
 const CompleteProfile = () => {
   const comCtx = useContext(ExpenseContext);
@@ -85,7 +86,7 @@ const CompleteProfile = () => {
   };
 
   return (
-    <Fragment>
+    <section className={classes.expense}>
       <button onClick={logoutHandler}>logout</button>
       <div>
         <p>Winners never quite,quitters never won</p>
@@ -93,25 +94,27 @@ const CompleteProfile = () => {
 
       <form onSubmit={formSubmitHandler}>
         <h4>Contact Details</h4>
-        <label htmlFor="full name">Full Name:</label>
+        <div className={classes.control}>
         <input
           type="text"
           id="full name"
           onChange={nameHandler}
           value={name}
+          placeholder='full name'
           required
         />
-        <label htmlFor="profile photo URL">Profile Photo URL:</label>
         <input
           type="url"
           id="profile photo URL"
           onChange={urlHandler}
           value={photoUrl}
+          placeholder='profile photo URL'
           required
         />
+        </div>
         <button type="submit">update</button>
       </form>
-    </Fragment>
+    </section>
   );
 };
 

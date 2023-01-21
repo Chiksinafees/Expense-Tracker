@@ -1,43 +1,19 @@
 import React, { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { expenseActions } from "./ExpenseStore";
 
 const ExpenseContext = React.createContext({
-  token: null,
-  email: null,
-  isLoggedIn: false,
-  login: (email, token) => {},
-  logout: (email, token) => {},
-
+ 
   postData: () => {},
   getData: () => {},
   delete: (id) => {},
-  expenses: null,
   edit: (array) => {},
 });
 
+
 export const ExpenseContextProvider = (props) => {
 
-  const userEmail = localStorage.getItem("email");
-  const [email, setEmail] = useState(userEmail);
-
-  const intitialToken = localStorage.getItem("token");
-  const [token, setToken] = useState(intitialToken);
-
-  const [expenses, setExpenses] = useState([]);
-  const userIsLoggedIn = !!token;
-
-  const loginHandler = (token, email) => {
-    setToken(token);
-    setEmail(email);
-    localStorage.setItem("token", token);
-    localStorage.setItem("email", email);
-  };
-
-  const logoutHandler = () => {
-    setToken(null);
-    setEmail(null);
-    localStorage.removeItem("token");
-    localStorage.removeItem("email");
-  };
+  const dispatch=useDispatch()
 
   const postDataHandler = (obj) => {
 
@@ -63,7 +39,9 @@ export const ExpenseContextProvider = (props) => {
     postExpense(obj);
   };
 
+
   let newArray = [];
+  let totalSpent;
   const getDataHandler = () => {
     const getRealTimeData = async () => {
       try {
@@ -87,7 +65,13 @@ export const ExpenseContextProvider = (props) => {
             };
           });
         }
-        setExpenses(newArray);
+
+        const totalSpent=newArray.reduce((currNumber,exp)=>{
+          return currNumber+Number(exp.moneySpent)
+        },0)
+        dispatch(expenseActions.addExpense({
+          newArray:newArray,
+        totalSpent:totalSpent}))      
       } catch (err) {
         alert(err.message);
       }
@@ -95,9 +79,11 @@ export const ExpenseContextProvider = (props) => {
     getRealTimeData();
   };
 
+
   useEffect(() => {
     getDataHandler();
   }, []);
+
 
   const deleteHandler = (id) => {
     const deleteExp = async (id) => {
@@ -125,15 +111,9 @@ export const ExpenseContextProvider = (props) => {
   };
 
   const expensecontextVal = {
-    token: token,
-    email: email,
-    isLoggedIn: userIsLoggedIn,
-    login: loginHandler,
-    logout: logoutHandler,
 
     postData: postDataHandler,
     getData: getDataHandler,
-    expenses: expenses,
     delete: deleteHandler,
     edit: editHandler,
   };

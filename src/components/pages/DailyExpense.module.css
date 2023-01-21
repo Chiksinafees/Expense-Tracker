@@ -1,0 +1,52 @@
+.expense {
+  margin: 5rem auto;
+  box-shadow: 0 1px 8px rgba(0, 0, 0, 0.2);
+  width: 50rem;
+  border-radius: 8px;
+  padding: 1rem;
+  text-align: center;
+  background-color: #f4f0fa;
+}
+
+.control {
+  margin-bottom: 0.5rem;
+}
+
+.control label {
+  display: block;
+  color: #616161;
+  text-transform: uppercase;
+  margin-bottom: 0.5rem;
+}
+
+.control input {
+  display: block;
+  width: 20rem;
+  margin: auto;
+  border-radius: 4px;
+  padding: 0.25rem;
+  border: 1px solid #ccc;
+}
+
+.expense button {
+  font-size: 1rem;
+  background-color: #0084ff;
+  border: 1px solid #042e64;
+  padding: 0.5rem 1.5rem;
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.2);
+  color: #2c2922;
+}
+
+.expense button:hover,
+.expense button:active {
+  background-color: #43e7ec;
+  border-color: #017a8a;
+}
+
+.expense h1 {
+  /* text-transform: uppercase; */
+  color: #575757;
+  margin: 0;
+  font-size: 1rem;
+  font-weight: bold;
+}

@@ -1,37 +1,38 @@
-import { useState, } from "react";
+import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import { useContext } from "react";
-import ExpenseContext from "../store/Expense-context";
+import classes from "./ExpenseForm.module.css";
+import { useDispatch } from "react-redux";
+import { authActions } from "../store/AuthStore";
+
 
 const ExpenseForm = () => {
 
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [isLogin, setIsLogin] = useState(true)
+  const dispatch=useDispatch()
 
-  const expCtx=useContext(ExpenseContext)
-  //const [isLoading,setIsLoading]=useState(false)
-   
-  const history=useHistory()
-  
+ //const emailId=useSelector((currState)=>currState.auth.email)
+ //const tokenNum=useSelector((currState)=>currState.auth.token)
+ 
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [isLogin, setIsLogin] = useState(true);
+
+  const history = useHistory();
+
   const emailHandler = (e) => {
-    setEmail(e.target.value)
+    setEmail(e.target.value);
   };
 
   const passwordHandler = (e) => {
-    setPassword(e.target.value)
+    setPassword(e.target.value);
   };
 
   const confirmPasswordHandle = (e) => {
-    setConfirmPassword(e.target.value)
+    setConfirmPassword(e.target.value);
   };
 
   const submitHandler = async (e) => {
     e.preventDefault();
-   
-        //setIsLoading(true)
-
     if (
       password.length >= 8 &&
       confirmPassword.length >= 8 &&
@@ -46,7 +47,7 @@ const ExpenseForm = () => {
           "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCgUOqeNyJVmp0BGn8K4bpRLeN4pcRNwPk";
       }
 
-       fetch(url, {
+      fetch(url, {
         method: "POST",
         body: JSON.stringify({
           email: email,
@@ -58,7 +59,6 @@ const ExpenseForm = () => {
         },
       })
         .then((res) => {
-          //setIsLoading(false)
           if (res.ok) {
             return res.json();
           } else {
@@ -72,83 +72,83 @@ const ExpenseForm = () => {
           }
         })
         .then((data) => {
-          if(isLogin){
-          console.log(data.idToken);
-          const regex = /[.@]/g;                          
-          const emailId = data.email.replace(regex, "")
-          expCtx.login(data.idToken,emailId)
-          //history.replace('/DummyScreen')
-          //history.replace('/EmailVerification')
-          history.replace('/DailyExpense')
-
+          if (isLogin) {
+            console.log(data.idToken);
+            const regex = /[.@]/g;
+            const emailId = data.email.replace(regex, "");
+            //expCtx.login(data.idToken, emailId);
+           dispatch(authActions.login({emailId:emailId,token:data.idToken}))
+            history.replace("/DailyExpense");
           }
         })
         .catch((err) => {
           alert(err.message);
         });
-    }else{
-      if(password!==confirmPassword){
-        alert("password and confirm password did not match")
-      }
-      else if(password.length<=8 && confirmPassword.length<=8){
-        alert('please enter atleast 8 digit')
+    } else {
+      if (password !== confirmPassword) {
+        alert("password and confirm password did not match");
+      } else if (password.length <= 8 && confirmPassword.length <= 8) {
+        alert("please enter atleast 8 digit");
       }
     }
     setEmail("");
     setPassword("");
     setConfirmPassword("");
-
   };
 
   const switchAuthHandler = () => {
     setIsLogin((prevState) => !prevState);
   };
 
-  const forgetPasswordHandler=()=>{
-    history.replace('/ForgetPassword')
-  }
+  const forgetPasswordHandler = () => {
+    history.replace("/ForgetPassword");
+  };
   return (
-    <section>
-      <form onSubmit={submitHandler}>
+    <main className={classes.auth}>
+      <section>
+        <form onSubmit={submitHandler}>
           <h1>{isLogin ? "login" : "sign up"}</h1>
-        <div>
-          <input
-            type="email"
-            id="email"
-            placeholder="Email"
-            onChange={emailHandler}
-            value={email}
-            required
-          />
-          <input
-            type="text"
-            id="password"
-            placeholder="Password"
-            onChange={passwordHandler}
-            value={password}
-            required
-          />
-          <input
-            type="password"
-            id="Confirm password"
-            placeholder="Confirm Password"
-            onChange={confirmPasswordHandle}
-            value={confirmPassword}
-            required
-          />
-        </div>
-        <div>
-          <p type='button' onClick={forgetPasswordHandler}>forgot password ?</p>
-        <button type="submit">{isLogin ? "login" : "Sign up"}</button><br/>
-        {/* {isLoading && <p>sending request...</p>} */}
-        <h4 type="button" onClick={switchAuthHandler}>
-          {isLogin
-            ? "Don't have an account?sign up"
-            : "already have an account? login"}
-        </h4>
-        </div>
-      </form>
-    </section>
+          <div className={classes.control}>
+            <input
+              type="email"
+              id="email"
+              placeholder="Email"
+              onChange={emailHandler}
+              value={email}
+              required
+            />
+            <input
+              type="text"
+              id="password"
+              placeholder="Password"
+              onChange={passwordHandler}
+              value={password}
+              required
+            />
+            <input
+              type="password"
+              id="Confirm password"
+              placeholder="Confirm Password"
+              onChange={confirmPasswordHandle}
+              value={confirmPassword}
+              required
+            />
+          </div>
+          <div>
+            <p type="button" onClick={forgetPasswordHandler}>
+              forgot password ?
+            </p>
+            <button type="submit">{isLogin ? "login" : "Sign up"}</button>
+            <br />
+            <h4 type="button" onClick={switchAuthHandler}>
+              {isLogin
+                ? "Don't have an account?sign up"
+                : "already have an account? login"}
+            </h4>
+          </div>
+        </form>
+      </section>
+    </main>
   );
 };
 

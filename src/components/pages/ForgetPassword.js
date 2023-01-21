@@ -1,21 +1,21 @@
-import { Fragment} from "react";
 import { useHistory } from "react-router-dom";
 import { useState } from "react";
+import classes from "./ForgetPassword.module.css";
 
 const ForgetPassword = () => {
+  
+  const history = useHistory();
 
-    const history = useHistory();
+  const [email, setemail] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
 
-  const[email,setemail]=useState('')
-  const[isLoading, setIsLoading]=useState(false)
-
-  const emailHandler=(e)=>{
-    setemail(e.target.value)
-  }
+  const emailHandler = (e) => {
+    setemail(e.target.value);
+  };
 
   const newPasswordHandler = async (e) => {
-    e.preventDefault()
-    setIsLoading(true)
+    e.preventDefault();
+    setIsLoading(true);
     const passwordReset = await fetch(
       "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyCgUOqeNyJVmp0BGn8K4bpRLeN4pcRNwPk",
       {
@@ -30,7 +30,7 @@ const ForgetPassword = () => {
       }
     );
     const data = await passwordReset.json();
-    setIsLoading(false)
+    setIsLoading(false);
     if (passwordReset.ok) {
       console.log(data);
     } else {
@@ -42,17 +42,19 @@ const ForgetPassword = () => {
     history.replace("/");
   };
   return (
-    <Fragment>
+    <section className={classes.verify}>
       <form onSubmit={newPasswordHandler}>
         <p>entered the email with which you have registered</p>
-        <input
-          type="email"
-          id="email"
-          placeholder="email"
-          onChange={emailHandler}
-          value={email}
-          required
-        />
+        <div className={classes.control}>
+          <input
+            type="email"
+            id="email"
+            placeholder="email"
+            onChange={emailHandler}
+            value={email}
+            required
+          />
+        </div>
         <br />
         {!isLoading && <button type="submit">send link</button>}
         <p type="button" onClick={backToLoginHandler}>
@@ -60,7 +62,7 @@ const ForgetPassword = () => {
         </p>
         {isLoading && <p>Sending request...</p>}
       </form>
-    </Fragment>
+    </section>
   );
 };
 

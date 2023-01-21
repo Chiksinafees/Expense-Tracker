@@ -7,10 +7,13 @@ import CompleteProfile from "./components/pages/CompleteProfile";
 import EmailVerification from "./components/pages/EmailVerification";
 import ForgetPassword from "./components/pages/ForgetPassword";
 import DailyExpense from "./components/pages/DailyExpense";
+import Header from "./components/Header";
+
 
 function App() {
   return (
     <Fragment >
+      <Header/>
    <Route path="/" exact>
         <ExpenseForm />
       </Route>   
