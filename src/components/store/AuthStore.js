@@ -3,22 +3,19 @@ import { createSlice } from "@reduxjs/toolkit";
 const authState = {
   token: localStorage.getItem("token"),
   email: localStorage.getItem("email"),
-  isLoggedIn: false,
+  isLoggedIn: !!localStorage.getItem("email"),
 };
-//console.log(authState.token,authState.email)
 
 const authSlice = createSlice({
   name: "authentication",
   initialState: authState,
   reducers: {
-
     login(currState, action) {
-     // console.log(action)
-     currState.email = action.payload.emailId;
-     currState.token = action.payload.token;
+      currState.email = action.payload.emailId;
+      currState.token = action.payload.token;
 
-     localStorage.setItem("email", currState.email);
-     localStorage.setItem("token", currState.token );
+      localStorage.setItem("email", currState.email);
+      localStorage.setItem("token", currState.token);
 
       currState.isLoggedIn = true;
     },

@@ -14,7 +14,7 @@
 
 .control label {
   display: block;
-  color: #616161;
+  color: #333232;
   text-transform: uppercase;
   margin-bottom: 0.5rem;
 }
@@ -45,7 +45,7 @@
 
 .expense h1 {
   /* text-transform: uppercase; */
-  color: #575757;
+  color: #080808;
   margin: 0;
   font-size: 1rem;
   font-weight: bold;

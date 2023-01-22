@@ -4,14 +4,10 @@ import classes from "./ExpenseForm.module.css";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store/AuthStore";
 
-
 const ExpenseForm = () => {
+  
+  const dispatch = useDispatch();
 
-  const dispatch=useDispatch()
-
- //const emailId=useSelector((currState)=>currState.auth.email)
- //const tokenNum=useSelector((currState)=>currState.auth.token)
- 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -77,7 +73,9 @@ const ExpenseForm = () => {
             const regex = /[.@]/g;
             const emailId = data.email.replace(regex, "");
             //expCtx.login(data.idToken, emailId);
-           dispatch(authActions.login({emailId:emailId,token:data.idToken}))
+            dispatch(
+              authActions.login({ emailId: emailId, token: data.idToken })
+            );
             history.replace("/DailyExpense");
           }
         })
@@ -103,6 +101,7 @@ const ExpenseForm = () => {
   const forgetPasswordHandler = () => {
     history.replace("/ForgetPassword");
   };
+
   return (
     <main className={classes.auth}>
       <section>
