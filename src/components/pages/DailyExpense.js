@@ -1,4 +1,4 @@
-import { useState, useContext } from "react";
+import { useState, useContext, useEffect } from "react";
 import ExpenseContext from "../store/Expense-context";
 import classes from "./DailyExpense.module.css";
 import { useSelector } from "react-redux";
@@ -12,7 +12,9 @@ const DailyExpense = () => {
   const [description, setDescription] = useState("");
   const [category, setCategory] = useState("");
 
+ 
   const dailyExpCtx = useContext(ExpenseContext);
+
 
   const moneySpentHandler = (e) => {
     setMoneySpent(e.target.value);
@@ -32,8 +34,13 @@ const DailyExpense = () => {
       moneySpent: moneySpent,
       description: description,
       category: category,
+      email:localStorage.getItem('email')
     };
     dailyExpCtx.postData(obj);
+
+    setMoneySpent('')
+    setDescription('')
+    setCategory('')
   };
 
   const deleteHandler = (deleteExpId) => {
@@ -85,7 +92,7 @@ const DailyExpense = () => {
           {expense.map((array) => (
             <li key={array.id + array.moneySpent + array.description}>
               moneySpent: {array.moneySpent} , description: {array.description}{" "}
-              , category: {array.category} ,
+              , category: {array.category} {' '}
               <button onClick={deleteHandler.bind(null, array.id)}>
                 delete
               </button>
