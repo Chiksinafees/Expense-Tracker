@@ -4,7 +4,6 @@ import { useContext } from "react";
 import { useHistory } from "react-router-dom";
 import classes from "./DailyExpense.module.css";
 
-
 const CompleteProfile = () => {
   const comCtx = useContext(ExpenseContext);
   const idToken = comCtx.token;
@@ -12,8 +11,6 @@ const CompleteProfile = () => {
   const history = useHistory();
   const [name, setName] = useState("");
   const [photoUrl, setPhotoUrl] = useState("");
-  // const [newName, setNewName] = useState("");
-  //   const [newPhotoUrl, setNewPhotoUrl] = useState("");
 
   const nameHandler = (e) => {
     setName(e.target.value);
@@ -26,7 +23,7 @@ const CompleteProfile = () => {
   const formSubmitHandler = async (e) => {
     e.preventDefault();
     const response = await fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyCgUOqeNyJVmp0BGn8K4bpRLeN4pcRNwPk",
+      "https://identitytoolkit.googleapis.com/v1/accounts:update?key=AIzaSyDojO8XOD6X16-UnnK0TROT7GBKWxktAm4",
       {
         method: "POST",
         body: JSON.stringify({
@@ -53,7 +50,7 @@ const CompleteProfile = () => {
   useEffect(() => {
     const getDataFromFirebase = async () => {
       const get = await fetch(
-        "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyCgUOqeNyJVmp0BGn8K4bpRLeN4pcRNwPk",
+        "https://identitytoolkit.googleapis.com/v1/accounts:lookup?key=AIzaSyDojO8XOD6X16-UnnK0TROT7GBKWxktAm4",
         {
           method: "POST",
           body: JSON.stringify({
@@ -95,22 +92,22 @@ const CompleteProfile = () => {
       <form onSubmit={formSubmitHandler}>
         <h4>Contact Details</h4>
         <div className={classes.control}>
-        <input
-          type="text"
-          id="full name"
-          onChange={nameHandler}
-          value={name}
-          placeholder='full name'
-          required
-        />
-        <input
-          type="url"
-          id="profile photo URL"
-          onChange={urlHandler}
-          value={photoUrl}
-          placeholder='profile photo URL'
-          required
-        />
+          <input
+            type="text"
+            id="full name"
+            onChange={nameHandler}
+            value={name}
+            placeholder="full name"
+            required
+          />
+          <input
+            type="url"
+            id="profile photo URL"
+            onChange={urlHandler}
+            value={photoUrl}
+            placeholder="profile photo URL"
+            required
+          />
         </div>
         <button type="submit">update</button>
       </form>

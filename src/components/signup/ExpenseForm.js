@@ -1,11 +1,9 @@
 import { useState } from "react";
 import { useHistory } from "react-router-dom";
-import classes from "./ExpenseForm.module.css";
 import { useDispatch } from "react-redux";
 import { authActions } from "../store/AuthStore";
 
 const ExpenseForm = () => {
-  
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
@@ -37,10 +35,10 @@ const ExpenseForm = () => {
       let url;
       if (isLogin) {
         url =
-          "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyCgUOqeNyJVmp0BGn8K4bpRLeN4pcRNwPk";
+          "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=AIzaSyDojO8XOD6X16-UnnK0TROT7GBKWxktAm4";
       } else {
         url =
-          "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyCgUOqeNyJVmp0BGn8K4bpRLeN4pcRNwPk";
+          "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=AIzaSyDojO8XOD6X16-UnnK0TROT7GBKWxktAm4";
       }
 
       fetch(url, {
@@ -103,23 +101,27 @@ const ExpenseForm = () => {
   };
 
   return (
-    <main className={classes.auth}>
-      <section>
+    <main className="my-16 flex items-center justify-center mx-4">
+      <section className="bg-black rounded-lg shadow-md p-8 w-full md:w-1/2 lg:w-1/3">
         <form onSubmit={submitHandler}>
-          <h1>{isLogin ? "login" : "sign up"}</h1>
-          <div className={classes.control}>
+          <h1 className="text-4xl mb-6 text-white text-center font-semibold">
+            {isLogin ? "Login" : "Sign up"}
+          </h1>
+          <div className="flex flex-col gap-4">
             <input
               type="email"
               id="email"
               placeholder="Email"
+              className="p-2 rounded border border-gray-400 focus:outline-none focus:border-blue-500"
               onChange={emailHandler}
               value={email}
               required
             />
             <input
-              type="text"
+              type="password"
               id="password"
               placeholder="Password"
+              className="p-2 rounded border border-gray-400 focus:outline-none focus:border-blue-500"
               onChange={passwordHandler}
               value={password}
               required
@@ -128,21 +130,32 @@ const ExpenseForm = () => {
               type="password"
               id="Confirm password"
               placeholder="Confirm Password"
+              className="p-2 rounded border border-gray-400 focus:outline-none focus:border-blue-500"
               onChange={confirmPasswordHandle}
               value={confirmPassword}
               required
             />
           </div>
-          <div>
-            <p type="button" onClick={forgetPasswordHandler}>
-              forgot password ?
+          <div className="flex flex-col items-start gap-4 mt-6">
+            <p
+              className="text-sm cursor-pointer text-blue-500"
+              onClick={forgetPasswordHandler}
+            >
+              Forgot Password?
             </p>
-            <button type="submit">{isLogin ? "login" : "Sign up"}</button>
-            <br />
-            <h4 type="button" onClick={switchAuthHandler}>
+            <button
+              type="submit"
+              className="py-2 px-4 bg-blue-500 text-white font-semibold rounded hover:bg-blue-600 transition-colors"
+            >
+              {isLogin ? "Login" : "Sign up"}
+            </button>
+            <h4
+              className="text-sm text-gray-500 cursor-pointer"
+              onClick={switchAuthHandler}
+            >
               {isLogin
-                ? "Don't have an account?sign up"
-                : "already have an account? login"}
+                ? "Don't have an account? Sign up"
+                : "Already have an account? Login"}
             </h4>
           </div>
         </form>

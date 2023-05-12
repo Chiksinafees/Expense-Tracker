@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { authActions } from "./store/AuthStore";
 import { useState } from "react";
 import { themeActions } from "./store/ThemeStore";
-
+import exp from "../assets/exp.jpg";
 const Header = () => {
   const dispatch = useDispatch();
 
@@ -69,38 +69,62 @@ const Header = () => {
   };
 
   return (
-    <header className={classes.header}>
-      <h1>Expense Tracker</h1>
-      {
-        <nav>
-          <ul>
-            <li>
-              <button onClick={logoutHandler}>Logout</button>
-            </li>
-            <li>
-              {totalSpent > 10000 && isLoggedIn && (
-                <button className="button" onClick={changStyleHandler}>
-                  Active premium button
-                </button>
-              )}
-            </li>
-            <li>
-              {totalSpent > 10000 && isLoggedIn && toggleButton && (
-                <button type="submit" onClick={switchThemeHandler}>
-                  {darkLight ? "dark button" : "light button"}
-                </button>
-              )}
-            </li>
-            <li>
-              {totalSpent > 10000 && isLoggedIn && toggleButton && (
-                <button type="submit" onClick={downloadExpenseHandler}>
-                  Download Expense
-                </button>
-              )}
-            </li>
-          </ul>
-        </nav>
-      }
+    <header
+      style={{
+        backgroundImage: `url(${exp})`,
+        backgroundSize: "cover",
+        backgroundPosition: "top",
+        minHeight: "12vh",
+      }}
+      className="bg-gray-400 p-6 mt-0 flex flex-col sm:flex-row justify-between items-center"
+    >
+      <h1 className="text-4xl font-bold mb-4 sm:mb-0 text-white">
+        Expense Tracker
+      </h1>
+      <nav className="flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-4">
+        <ul className="flex flex-col sm:flex-row">
+          <li>
+            <button
+              className="text-white bg-yellow-400 hover:bg-yellow-600 px-4 py-2 mr-2 rounded"
+              onClick={logoutHandler}
+            >
+              Logout
+            </button>
+          </li>
+          <li>
+            {totalSpent > 10000 && isLoggedIn && (
+              <button
+                className="text-white bg-green-500 hover:bg-green-800 px-4 py-2 rounded mr-2"
+                onClick={changStyleHandler}
+              >
+                Active premium button
+              </button>
+            )}
+          </li>
+          <li>
+            {totalSpent > 10000 && isLoggedIn && toggleButton && (
+              <button
+                className="text-white bg-purple-500  hover:bg-purple-900  px-4 py-2 mr-2 rounded"
+                type="submit"
+                onClick={switchThemeHandler}
+              >
+                {darkLight ? "dark button" : "light button"}
+              </button>
+            )}
+          </li>
+          <li>
+            {totalSpent > 10000 && isLoggedIn && toggleButton && (
+              <button
+                className="text-white bg-indigo-500  hover:bg-indigo-900 px-4 py-2 rounded"
+                type="submit"
+                onClick={downloadExpenseHandler}
+              >
+                Download Expense
+              </button>
+            )}
+          </li>
+        </ul>
+      </nav>
     </header>
   );
 };

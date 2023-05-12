@@ -4,7 +4,6 @@ import { useContext } from "react";
 import classes from "./ForgetPassword.module.css";
 
 const EmailVerification = () => {
-
   const history = useHistory();
   const emailCtx = useContext(ExpenseContext);
   const idToken = emailCtx.token;
@@ -12,7 +11,7 @@ const EmailVerification = () => {
     e.preventDefault();
 
     const verify = await fetch(
-      "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyCgUOqeNyJVmp0BGn8K4bpRLeN4pcRNwPk",
+      "https://identitytoolkit.googleapis.com/v1/accounts:sendOobCode?key=AIzaSyDojO8XOD6X16-UnnK0TROT7GBKWxktAm4",
       {
         method: "POST",
         body: JSON.stringify({

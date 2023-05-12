@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { useDispatch,useSelector } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { expenseActions } from "./ExpenseStore";
 
 const ExpenseContext = React.createContext({
@@ -10,14 +10,13 @@ const ExpenseContext = React.createContext({
 });
 
 export const ExpenseContextProvider = (props) => {
-
-const loggedEmail=useSelector((currState)=>currState.auth.email)
+  const loggedEmail = useSelector((currState) => currState.auth.email);
   const dispatch = useDispatch();
 
   const postDataHandler = (obj) => {
     const postExpense = async (obj) => {
       const post = await fetch(
-        `https://expense-975c9-default-rtdb.firebaseio.com/Expenses/${loggedEmail}.json`,
+        `https://expense-236e0-default-rtdb.firebaseio.com/Expenses/${loggedEmail}.json`,
         {
           method: "POST",
           body: JSON.stringify({
@@ -42,7 +41,7 @@ const loggedEmail=useSelector((currState)=>currState.auth.email)
     const getRealTimeData = async () => {
       try {
         const get = await fetch(
-          `https://expense-975c9-default-rtdb.firebaseio.com/Expenses/${loggedEmail}.json`,
+          `https://expense-236e0-default-rtdb.firebaseio.com/Expenses/${loggedEmail}.json`,
           {
             method: "GET",
             headers: {
@@ -66,12 +65,12 @@ const loggedEmail=useSelector((currState)=>currState.auth.email)
         const totalSpent = newArray.reduce((currNumber, exp) => {
           return currNumber + Number(exp.moneySpent);
         }, 0);
-          dispatch(
-            expenseActions.addExpense({
-              newArray: newArray,
-              totalSpent: totalSpent,
-            })
-          );
+        dispatch(
+          expenseActions.addExpense({
+            newArray: newArray,
+            totalSpent: totalSpent,
+          })
+        );
       } catch (err) {
         alert(err.message);
       }
@@ -87,7 +86,7 @@ const loggedEmail=useSelector((currState)=>currState.auth.email)
     const deleteExp = async (id) => {
       try {
         const del = await fetch(
-          `https://expense-975c9-default-rtdb.firebaseio.com/Expenses/${loggedEmail}/${id}.json`,
+          `https://expense-236e0-default-rtdb.firebaseio.com/Expenses/${loggedEmail}/${id}.json`,
           {
             method: "DELETE",
             headers: {
